@@ -1,0 +1,19 @@
+{
+  "name": "@repo/validation",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "type-check": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "zod": "^3.23.8",
+    "@repo/shared-types": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "rimraf": "^5.0.10"
+  }
+}

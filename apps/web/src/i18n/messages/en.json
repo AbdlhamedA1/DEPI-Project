@@ -1,0 +1,54 @@
+{
+  "common": {
+    "appName": "Egyptian Student Housing",
+    "search": "Search",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings",
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "viewDetails": "View Details",
+    "perMonth": "per month",
+    "egp": "EGP",
+    "verified": "Verified",
+    "unverified": "Unverified"
+  },
+  "nav": {
+    "home": "Home",
+    "explore": "Explore Housing",
+    "about": "About Us",
+    "contact": "Contact",
+    "studentDashboard": "Student Dashboard",
+    "ownerDashboard": "Owner Dashboard",
+    "adminDashboard": "Admin Dashboard"
+  },
+  "hero": {
+    "title": "Your Trusted and Safe Student Housing in Egypt",
+    "subtitle": "Find verified student accommodations near your Egyptian university with zero broker fees",
+    "selectUniversity": "Select University",
+    "allUniversities": "All Egyptian Universities",
+    "selectGender": "Housing Policy",
+    "maleOnly": "Male Students Only",
+    "femaleOnly": "Female Students Only",
+    "family": "Family / Mixed",
+    "searchButton": "Search Now"
+  },
+  "auth": {
+    "loginTitle": "Sign In",
+    "phoneLabel": "Mobile Phone Number",
+    "phonePlaceholder": "01012345678",
+    "sendOtp": "Send Verification Code",
+    "verifyOtpTitle": "Verify OTP Code",
+    "otpLabel": "Enter 6-digit code",
+    "verifyButton": "Verify & Proceed",
+    "selectRoleTitle": "Choose Account Type",
+    "studentRoleTitle": "University Student",
+    "studentRoleDesc": "Find suitable student housing and book securely",
+    "ownerRoleTitle": "Property Owner or Manager",
+    "ownerRoleDesc": "List your properties and receive verified student bookings"
+  }
+}

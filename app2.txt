@@ -1,0 +1,306 @@
+
+student-housing-platform/
+│
+├── apps/
+│   │
+│   ├── web/                                  # Frontend - Next.js
+│   │   ├── public/
+│   │   │   ├── images/
+│   │   │   ├── icons/
+│   │   │   ├── fonts/
+│   │   │   └── favicon/
+│   │   │
+│   │   ├── src/
+│   │   │   ├── app/
+│   │   │   │   ├── [locale]/
+│   │   │   │   │   ├── (public)/
+│   │   │   │   │   │   ├── page.tsx
+│   │   │   │   │   │   ├── search/
+│   │   │   │   │   │   │   └── page.tsx
+│   │   │   │   │   │   ├── properties/
+│   │   │   │   │   │   │   └── [propertyId]/
+│   │   │   │   │   │   │       └── page.tsx
+│   │   │   │   │   │   ├── about/
+│   │   │   │   │   │   ├── contact/
+│   │   │   │   │   │   └── not-found.tsx
+│   │   │   │   │   │
+│   │   │   │   │   ├── (auth)/
+│   │   │   │   │   │   ├── login/
+│   │   │   │   │   │   ├── register/
+│   │   │   │   │   │   ├── verify-otp/
+│   │   │   │   │   │   └── account-type/
+│   │   │   │   │   │
+│   │   │   │   │   ├── (student)/
+│   │   │   │   │   │   └── student/
+│   │   │   │   │   │       ├── dashboard/
+│   │   │   │   │   │       ├── profile/
+│   │   │   │   │   │       ├── requests/
+│   │   │   │   │   │       │   └── [requestId]/
+│   │   │   │   │   │       ├── messages/
+│   │   │   │   │   │       │   └── [conversationId]/
+│   │   │   │   │   │       ├── notifications/
+│   │   │   │   │   │       ├── reviews/
+│   │   │   │   │   │       ├── reports/
+│   │   │   │   │   │       └── settings/
+│   │   │   │   │   │
+│   │   │   │   │   ├── (owner)/
+│   │   │   │   │   │   └── owner/
+│   │   │   │   │   │       ├── dashboard/
+│   │   │   │   │   │       ├── profile/
+│   │   │   │   │   │       ├── properties/
+│   │   │   │   │   │       │   ├── page.tsx
+│   │   │   │   │   │       │   ├── new/
+│   │   │   │   │   │       │   └── [propertyId]/
+│   │   │   │   │   │       ├── requests/
+│   │   │   │   │   │       │   └── [requestId]/
+│   │   │   │   │   │       ├── messages/
+│   │   │   │   │   │       │   └── [conversationId]/
+│   │   │   │   │   │       ├── notifications/
+│   │   │   │   │   │       ├── verification/
+│   │   │   │   │   │       └── settings/
+│   │   │   │   │   │
+│   │   │   │   │   └── (admin)/
+│   │   │   │   │       └── admin/
+│   │   │   │   │           ├── dashboard/
+│   │   │   │   │           ├── users/
+│   │   │   │   │           ├── students/
+│   │   │   │   │           ├── owners/
+│   │   │   │   │           ├── verifications/
+│   │   │   │   │           ├── properties/
+│   │   │   │   │           ├── booking-requests/
+│   │   │   │   │           ├── reviews/
+│   │   │   │   │           ├── reports/
+│   │   │   │   │           ├── notifications/
+│   │   │   │   │           ├── analytics/
+│   │   │   │   │           ├── audit-logs/
+│   │   │   │   │           └── settings/
+│   │   │   │   │
+│   │   │   ├── layout.tsx
+│   │   │   ├── globals.css
+│   │   │   ├── error.tsx
+│   │   │   └── not-found.tsx
+│   │   │
+│   │   ├── components/
+│   │   │   ├── ui/
+│   │   │   ├── layout/
+│   │   │   ├── navigation/
+│   │   │   ├── forms/
+│   │   │   ├── feedback/
+│   │   │   ├── data-display/
+│   │   │   └── maps/
+│   │   │
+│   │   ├── features/
+│   │   │   ├── auth/
+│   │   │   ├── students/
+│   │   │   ├── owners/
+│   │   │   ├── properties/
+│   │   │   ├── units/
+│   │   │   ├── search/
+│   │   │   ├── booking-requests/
+│   │   │   ├── agreements/
+│   │   │   ├── messaging/
+│   │   │   ├── notifications/
+│   │   │   ├── reviews/
+│   │   │   ├── reports/
+│   │   │   ├── verification/
+│   │   │   └── admin/
+│   │   │
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   ├── lib/
+│   │   ├── i18n/
+│   │   │   ├── messages/
+│   │   │   │   ├── ar.json
+│   │   │   │   └── en.json
+│   │   │   └── config/
+│   │   ├── styles/
+│   │   ├── types/
+│   │   └── middleware.ts
+│   │
+│   ├── tests/
+│   ├── next.config.ts
+│   ├── package.json
+│   └── tsconfig.json
+│
+│
+├── apps/api/                                 # Backend - NestJS
+│   ├── src/
+│   │   ├── main.ts
+│   │   ├── app.module.ts
+│   │   │
+│   │   ├── config/
+│   │   │   ├── app.config.ts
+│   │   │   ├── database.config.ts
+│   │   │   ├── storage.config.ts
+│   │   │   ├── maps.config.ts
+│   │   │   └── validation.config.ts
+│   │   │
+│   │   ├── common/
+│   │   │   ├── decorators/
+│   │   │   ├── guards/
+│   │   │   ├── interceptors/
+│   │   │   ├── filters/
+│   │   │   ├── pipes/
+│   │   │   ├── middleware/
+│   │   │   ├── exceptions/
+│   │   │   ├── constants/
+│   │   │   └── utils/
+│   │   │
+│   │   ├── database/
+│   │   │   ├── migrations/
+│   │   │   ├── seeds/
+│   │   │   ├── factories/
+│   │   │   └── database.module.ts
+│   │   │
+│   │   ├── modules/
+│   │   │   │
+│   │   │   ├── auth/
+│   │   │   ├── users/
+│   │   │   ├── students/
+│   │   │   ├── owners/
+│   │   │   ├── universities/
+│   │   │   ├── locations/
+│   │   │   ├── properties/
+│   │   │   ├── units/
+│   │   │   ├── rooms/
+│   │   │   ├── beds/
+│   │   │   ├── pricing/
+│   │   │   ├── availability/
+│   │   │   ├── search/
+│   │   │   ├── booking-requests/
+│   │   │   ├── agreements/
+│   │   │   ├── messaging/
+│   │   │   ├── notifications/
+│   │   │   ├── reviews/
+│   │   │   ├── reports/
+│   │   │   ├── verification/
+│   │   │   ├── support/
+│   │   │   ├── admin/
+│   │   │   ├── analytics/
+│   │   │   └── platform-settings/
+│   │   │
+│   │   ├── health/
+│   │   └── app.module.ts
+│   │
+│   ├── test/
+│   ├── nest-cli.json
+│   ├── package.json
+│   └── tsconfig.json
+│
+│
+├── packages/                                 # Shared Packages
+│   ├── shared-types/
+│   │   ├── src/
+│   │   │   ├── users/
+│   │   │   ├── properties/
+│   │   │   ├── bookings/
+│   │   │   ├── messages/
+│   │   │   └── index.ts
+│   │   └── package.json
+│   │
+│   ├── shared-config/
+│   │   ├── eslint/
+│   │   ├── typescript/
+│   │   └── package.json
+│   │
+│   ├── api-client/
+│   │   ├── src/
+│   │   └── package.json
+│   │
+│   └── validation/
+│       ├── src/
+│       └── package.json
+│
+│
+├── infrastructure/
+│   ├── docker/
+│   │   ├── Dockerfile.web
+│   │   ├── Dockerfile.api
+│   │   └── docker-compose.yml
+│   │
+│   ├── deployment/
+│   │   ├── development/
+│   │   ├── staging/
+│   │   └── production/
+│   │
+│   ├── database/
+│   │   └── backup/
+│   │
+│   └── monitoring/
+│
+│
+├── docs/
+│   ├── product/
+│   │   ├── product-vision.md
+│   │   ├── prd.md
+│   │   ├── business-rules.md
+│   │   ├── user-roles.md
+│   │   ├── user-journeys.md
+│   │   ├── functional-requirements.md
+│   │   ├── non-functional-requirements.md
+│   │   ├── mvp-scope.md
+│   │   └── open-questions.md
+│   │
+│   ├── architecture/
+│   │   ├── system-architecture.md
+│   │   ├── frontend-architecture.md
+│   │   ├── backend-architecture.md
+│   │   ├── security.md
+│   │   └── infrastructure.md
+│   │
+│   ├── database/
+│   │   ├── erd.md
+│   │   ├── database-schema.md
+│   │   ├── relationships.md
+│   │   └── migrations.md
+│   │
+│   ├── api/
+│   │   ├── api-overview.md
+│   │   ├── endpoints.md
+│   │   └── error-handling.md
+│   │
+│   ├── design/
+│   │   ├── design-system.md
+│   │   ├── typography.md
+│   │   ├── colors.md
+│   │   └── components.md
+│   │
+│   ├── decisions/
+│   │   ├── decision-log.md
+│   │   └── architecture-decision-records/
+│   │
+│   └── development/
+│       ├── setup.md
+│       ├── testing.md
+│       ├── deployment.md
+│       └── troubleshooting.md
+│
+│
+├── scripts/
+│   ├── setup/
+│   ├── database/
+│   ├── testing/
+│   └── deployment/
+│
+│
+├── tests/
+│   ├── e2e/
+│   ├── integration/
+│   └── fixtures/
+│
+│
+├── .github/
+│   └── workflows/
+│       ├── ci.yml
+│       └── deployment.yml
+│
+├── .env.example
+├── .gitignore
+├── .prettierrc
+├── package.json
+├── package-lock.json
+├── tsconfig.base.json
+├── README.md
+├── PROJECT_STATUS.md
+├── DECISIONS.md
+└── MVP_SCOPE.md

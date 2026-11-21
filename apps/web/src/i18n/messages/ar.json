@@ -1,0 +1,54 @@
+{
+  "common": {
+    "appName": "سكن الطلاب المصري",
+    "search": "بحث",
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب جديد",
+    "logout": "تسجيل الخروج",
+    "dashboard": "لوحة التحكم",
+    "profile": "الملف الشخصي",
+    "settings": "الإعدادات",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "loading": "جاري التحميل...",
+    "viewDetails": "عرض التفاصيل",
+    "perMonth": "شهرياً",
+    "egp": "جنيه",
+    "verified": "موثق",
+    "unverified": "غير موثق"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "explore": "استكشف السكن",
+    "about": "عن المنصة",
+    "contact": "اتصل بنا",
+    "studentDashboard": "لوحة الطالب",
+    "ownerDashboard": "لوحة المؤجر",
+    "adminDashboard": "لوحة الإدارة"
+  },
+  "hero": {
+    "title": "سكنك الجامعي الموثوق والآمن في مصر",
+    "subtitle": "ابحث عن أفضل سكن طلابي بالقرب من جامعتك بسهولة وأمان وبدون سماسرة",
+    "selectUniversity": "اختر الجامعة",
+    "allUniversities": "جميع الجامعات المصرية",
+    "selectGender": "نوع السكن",
+    "maleOnly": "طلاب (بنين)",
+    "femaleOnly": "طالبات (بنات)",
+    "family": "عائلي / مشترك",
+    "searchButton": "ابحث الآن"
+  },
+  "auth": {
+    "loginTitle": "تسجيل الدخول",
+    "phoneLabel": "رقم الهاتف المحمول",
+    "phonePlaceholder": "01012345678",
+    "sendOtp": "إرسال رمز التحقق",
+    "verifyOtpTitle": "تأكيد رمز التحقق",
+    "otpLabel": "أدخل الرمز المكون من 6 أرقام",
+    "verifyButton": "تحقق والمتابعة",
+    "selectRoleTitle": "اختر نوع الحساب",
+    "studentRoleTitle": "طالب جامعي",
+    "studentRoleDesc": "ابحث عن سكن مناسب واحجز بكل سهولة وأمان",
+    "ownerRoleTitle": "مالك أو مدير عقار",
+    "ownerRoleDesc": "اعرض سكنك وقم بإدارته واستقبال حجوزات الطلاب الموثقين"
+  }
+}

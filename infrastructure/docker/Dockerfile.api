@@ -1,0 +1,37 @@
+# Stage 1: Base
+FROM node:24-alpine AS base
+WORKDIR /app
+RUN apk add --no-cache libc6-compat
+
+# Stage 2: Dependencies
+FROM base AS deps
+WORKDIR /app
+COPY package.json package-lock.json* ./
+COPY apps/api/package.json ./apps/api/package.json
+COPY packages/shared-types/package.json ./packages/shared-types/package.json
+COPY packages/shared-config/package.json ./packages/shared-config/package.json
+COPY packages/validation/package.json ./packages/validation/package.json
+RUN npm ci
+
+# Stage 3: Builder
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build:packages
+RUN npm run --workspace=@repo/api build
+
+# Stage 4: Runner
+FROM node:24-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+ENV API_PORT=3001
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nestjs
+COPY --from=builder /app/apps/api/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/apps/api/package.json ./package.json
+
+USER nestjs
+EXPOSE 3001
+CMD ["node", "dist/main.js"]

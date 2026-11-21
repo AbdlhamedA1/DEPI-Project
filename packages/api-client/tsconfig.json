@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": true,
+    "declarationMap": true,
+    "module": "CommonJS",
+    "target": "ES2022",
+    "paths": {
+      "@repo/shared-types": ["../shared-types/dist/index.d.ts"],
+      "@repo/validation": ["../validation/dist/index.d.ts"]
+    }
+  },
+  "include": ["src/**/*"]
+}
