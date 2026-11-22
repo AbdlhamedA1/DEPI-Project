@@ -69,9 +69,10 @@ export default function OwnerVerificationPage({ params }: { params: { locale: Lo
             {status === 'VERIFIED' ? (
               <Badge
                 variant="success"
-                className="bg-emerald-100 text-emerald-800 border-emerald-200 text-xs px-3 py-1 font-bold"
+                className="bg-emerald-100 text-emerald-800 border-emerald-200 text-xs px-3 py-1 font-bold flex items-center gap-1.5"
               >
-                {isAr ? 'موثق ومعتمد ✓' : 'Verified & Approved ✓'}
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <span>{isAr ? 'موثق ومعتمد' : 'Verified & Approved'}</span>
               </Badge>
             ) : status === 'PENDING' ? (
               <Badge

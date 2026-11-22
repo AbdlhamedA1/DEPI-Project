@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { BarChart3, Download, FileText, RefreshCw, Lock, Users, MapPin, Shield, Star } from 'lucide-react';
 import { Locale } from '../../../../../i18n/config';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../../../components/ui/card';
 import { Badge } from '../../../../../components/ui/badge';
@@ -26,7 +27,9 @@ export default function AdminAnalyticsPage({ params }: { params: { locale: Local
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-2xl">📊</span>
+              <div className="w-9 h-9 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
+                <BarChart3 className="w-5 h-5" />
+              </div>
               <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">
                 {isAr ? 'لوحة التحليلات والمؤشرات التشغيلية' : 'Platform Analytics & KPIs'}
               </h1>
@@ -82,9 +85,9 @@ export default function AdminAnalyticsPage({ params }: { params: { locale: Local
               size="sm"
               disabled={downloadingFormat === 'csv'}
               onClick={() => handleExport('csv')}
-              className="gap-1 border-slate-300"
+              className="gap-1.5 border-slate-300"
             >
-              <span>📥</span>
+              <Download className="w-3.5 h-3.5" />
               <span>
                 {downloadingFormat === 'csv'
                   ? isAr
@@ -100,9 +103,9 @@ export default function AdminAnalyticsPage({ params }: { params: { locale: Local
               size="sm"
               disabled={downloadingFormat === 'json'}
               onClick={() => handleExport('json')}
-              className="gap-1 border-slate-300"
+              className="gap-1.5 border-slate-300"
             >
-              <span>💾</span>
+              <FileText className="w-3.5 h-3.5" />
               <span>
                 {downloadingFormat === 'json'
                   ? isAr
@@ -202,7 +205,7 @@ export default function AdminAnalyticsPage({ params }: { params: { locale: Local
             <CardHeader className="pb-3 border-b border-slate-100">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base font-bold text-slate-900 flex items-center gap-2">
-                  <span>🔄</span>
+                  <RefreshCw className="w-4 h-4 text-orange-600" />
                   <span>
                     {isAr
                       ? 'مسار دورة حياة الحجز (4 مراحل)'
@@ -270,8 +273,8 @@ export default function AdminAnalyticsPage({ params }: { params: { locale: Local
               </div>
 
               <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs text-slate-600 mt-4 flex items-center justify-between">
-                <span>
-                  🔒{' '}
+                <span className="flex items-center gap-1.5">
+                  <Lock className="w-3.5 h-3.5 text-slate-700" />
                   {isAr
                     ? 'قفل التزامن الذري يمنع الحجز المزدوج'
                     : 'Atomic concurrency lock prevents double booking'}
@@ -285,7 +288,7 @@ export default function AdminAnalyticsPage({ params }: { params: { locale: Local
           <Card className="border-slate-200">
             <CardHeader className="pb-3 border-b border-slate-100">
               <CardTitle className="text-base font-bold text-slate-900 flex items-center gap-2">
-                <span>👥</span>
+                <Users className="w-4 h-4 text-blue-600" />
                 <span>
                   {isAr
                     ? 'توزيع المستخدمين والملاك والجامعات'
@@ -355,7 +358,7 @@ export default function AdminAnalyticsPage({ params }: { params: { locale: Local
         <Card className="border-slate-200">
           <CardHeader className="pb-3 border-b border-slate-100">
             <CardTitle className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <span>📍</span>
+              <MapPin className="w-4 h-4 text-emerald-600" />
               <span>
                 {isAr
                   ? 'مؤشرات العرض والطلب حسب المدن والمناطق'
@@ -434,7 +437,7 @@ export default function AdminAnalyticsPage({ params }: { params: { locale: Local
         <Card className="border-slate-200">
           <CardHeader className="pb-3 border-b border-slate-100">
             <CardTitle className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <span>🛡️</span>
+              <Shield className="w-4 h-4 text-orange-600" />
               <span>
                 {isAr ? 'مؤشرات الثقة والسلامة وجودة التقييمات' : 'Trust, Safety & Quality Metrics'}
               </span>
@@ -443,7 +446,10 @@ export default function AdminAnalyticsPage({ params }: { params: { locale: Local
           <CardContent className="pt-4">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
               <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                <div className="text-2xl font-extrabold text-amber-500">⭐ 4.7 / 5.0</div>
+                <div className="flex items-center justify-center gap-1.5 text-2xl font-extrabold text-amber-500">
+                  <Star className="w-5 h-5 fill-amber-500 text-amber-500" />
+                  <span>4.7 / 5.0</span>
+                </div>
                 <div className="text-xs text-slate-600 mt-1">
                   {isAr ? 'متوسط تقييم السكن' : 'Average Rating'}
                 </div>

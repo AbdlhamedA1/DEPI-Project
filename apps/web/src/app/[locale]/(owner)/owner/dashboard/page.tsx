@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { CheckCircle2 } from 'lucide-react';
 import { Locale } from '../../../../../i18n/config';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../../../components/ui/card';
 import { Badge } from '../../../../../components/ui/badge';
@@ -71,7 +72,10 @@ export default function OwnerDashboardPage({ params }: { params: { locale: Local
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <Badge variant="success">{isAr ? 'مالك موثق ✓' : 'Verified Owner ✓'}</Badge>
+              <Badge variant="success" className="flex items-center gap-1 font-semibold w-fit">
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>{isAr ? 'مالك موثق' : 'Verified Owner'}</span>
+              </Badge>
             </CardContent>
           </Card>
         </div>

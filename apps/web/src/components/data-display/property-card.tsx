@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { CheckCircle2 } from 'lucide-react';
 import { Locale } from '../../i18n/config';
 import { Badge } from '../ui/badge';
 import { Card, CardContent } from '../ui/card';
@@ -52,7 +53,10 @@ export function PropertyCard({
         )}
         {isVerified && (
           <div className="absolute top-3 start-3">
-            <Badge variant="success">{isAr ? 'موثق ✓' : 'Verified ✓'}</Badge>
+            <Badge variant="success" className="flex items-center gap-1 font-semibold">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>{isAr ? 'موثق' : 'Verified'}</span>
+            </Badge>
           </div>
         )}
         <div className="absolute top-3 end-3">

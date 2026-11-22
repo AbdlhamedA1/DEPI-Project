@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { ShieldCheck, Building2, AlertTriangle, BarChart3 } from 'lucide-react';
 import { Locale } from '../../../../../i18n/config';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../../../components/ui/card';
 import { Badge } from '../../../../../components/ui/badge';
@@ -76,7 +77,9 @@ export default function AdminDashboardPage({ params }: { params: { locale: Local
           <Link href={`/${params.locale}/admin/verifications`}>
             <Card className="hover:border-orange-500 transition">
               <CardContent className="p-4 text-center">
-                <span className="text-2xl block mb-1">🛡️</span>
+                <div className="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mx-auto mb-2">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
                 <span className="font-bold text-sm">
                   {isAr ? 'مراجعة التوثيق' : 'KYC Verification'}
                 </span>
@@ -87,7 +90,9 @@ export default function AdminDashboardPage({ params }: { params: { locale: Local
           <Link href={`/${params.locale}/admin/properties`}>
             <Card className="hover:border-orange-500 transition">
               <CardContent className="p-4 text-center">
-                <span className="text-2xl block mb-1">🏢</span>
+                <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-2">
+                  <Building2 className="w-5 h-5" />
+                </div>
                 <span className="font-bold text-sm">
                   {isAr ? 'اعتماد العقارات' : 'Property Approvals'}
                 </span>
@@ -98,7 +103,9 @@ export default function AdminDashboardPage({ params }: { params: { locale: Local
           <Link href={`/${params.locale}/admin/reports`}>
             <Card className="hover:border-orange-500 transition">
               <CardContent className="p-4 text-center">
-                <span className="text-2xl block mb-1">🚨</span>
+                <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-2">
+                  <AlertTriangle className="w-5 h-5" />
+                </div>
                 <span className="font-bold text-sm">
                   {isAr ? 'إدارة البلاغات' : 'Reports & Safety'}
                 </span>
@@ -109,7 +116,9 @@ export default function AdminDashboardPage({ params }: { params: { locale: Local
           <Link href={`/${params.locale}/admin/analytics`}>
             <Card className="hover:border-orange-500 transition">
               <CardContent className="p-4 text-center">
-                <span className="text-2xl block mb-1">📊</span>
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-2">
+                  <BarChart3 className="w-5 h-5" />
+                </div>
                 <span className="font-bold text-sm">
                   {isAr ? 'التحليلات والتقارير' : 'Analytics & Insights'}
                 </span>

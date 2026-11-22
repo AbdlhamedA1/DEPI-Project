@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { GraduationCap, Building2 } from 'lucide-react';
 import { Locale } from '../../../../i18n/config';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../../components/ui/card';
 
@@ -24,8 +25,8 @@ export default function AccountTypePage({ params }: { params: { locale: Locale }
           <Link href={`/${params.locale}/register?role=student`} className="group">
             <Card className="h-full p-6 border-2 border-slate-200 group-hover:border-orange-500 transition-all hover:shadow-lg">
               <CardHeader className="p-0 mb-4">
-                <div className="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-3xl mb-3">
-                  🎓
+                <div className="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center mb-3">
+                  <GraduationCap className="w-7 h-7" />
                 </div>
                 <CardTitle className="text-xl font-bold">
                   {isAr ? 'أنا طالب / طالبة' : "I'm a Student"}
@@ -42,8 +43,8 @@ export default function AccountTypePage({ params }: { params: { locale: Locale }
           <Link href={`/${params.locale}/register?role=owner`} className="group">
             <Card className="h-full p-6 border-2 border-slate-200 group-hover:border-orange-500 transition-all hover:shadow-lg">
               <CardHeader className="p-0 mb-4">
-                <div className="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-3xl mb-3">
-                  🏢
+                <div className="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center mb-3">
+                  <Building2 className="w-7 h-7" />
                 </div>
                 <CardTitle className="text-xl font-bold">
                   {isAr ? 'أنا مالك سكن / مدير عقار' : "I'm a Property Owner"}

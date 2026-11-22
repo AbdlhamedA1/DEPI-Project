@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Users, CheckCircle2, Clock, X } from 'lucide-react';
 import { Locale } from '../../../../../i18n/config';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../../../components/ui/card';
 import { Badge } from '../../../../../components/ui/badge';
@@ -151,7 +152,9 @@ export default function AdminUsersPage({ params }: { params: { locale: Locale } 
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-2xl">👥</span>
+              <div className="w-9 h-9 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
+                <Users className="w-5 h-5" />
+              </div>
               <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">
                 {isAr ? 'إدارة المستخدمين وضبط الحسابات' : 'User Account Management'}
               </h1>
@@ -174,15 +177,15 @@ export default function AdminUsersPage({ params }: { params: { locale: Locale } 
         {feedbackMessage && (
           <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-sm font-semibold flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span>✅</span>
+              <CheckCircle2 className="w-5 h-5 text-emerald-600" />
               <span>{feedbackMessage}</span>
             </div>
             <button
               type="button"
               onClick={() => setFeedbackMessage(null)}
-              className="text-emerald-600 hover:text-emerald-800"
+              className="text-emerald-600 hover:text-emerald-800 p-1"
             >
-              ✕
+              <X className="w-4 h-4" />
             </button>
           </div>
         )}
@@ -303,9 +306,15 @@ export default function AdminUsersPage({ params }: { params: { locale: Locale } 
                         </td>
                         <td className="p-3">
                           {user.verificationStatus === 'VERIFIED' ? (
-                            <Badge variant="success">{isAr ? 'موثق ✅' : 'Verified'}</Badge>
+                            <Badge variant="success" className="inline-flex items-center gap-1 font-semibold">
+                              <CheckCircle2 className="w-3 h-3" />
+                              <span>{isAr ? 'موثق' : 'Verified'}</span>
+                            </Badge>
                           ) : user.verificationStatus === 'PENDING' ? (
-                            <Badge variant="warning">{isAr ? 'قيد المراجعة ⏳' : 'Pending'}</Badge>
+                            <Badge variant="warning" className="inline-flex items-center gap-1 font-semibold">
+                              <Clock className="w-3 h-3" />
+                              <span>{isAr ? 'قيد المراجعة' : 'Pending'}</span>
+                            </Badge>
                           ) : (
                             <Badge variant="outline">{isAr ? 'غير موثق' : 'Unverified'}</Badge>
                           )}
@@ -363,9 +372,9 @@ export default function AdminUsersPage({ params }: { params: { locale: Locale } 
                 <button
                   type="button"
                   onClick={() => setTargetUser(null)}
-                  className="text-slate-400 hover:text-slate-600"
+                  className="text-slate-400 hover:text-slate-600 p-1"
                 >
-                  ✕
+                  <X className="w-4 h-4" />
                 </button>
               </div>
 

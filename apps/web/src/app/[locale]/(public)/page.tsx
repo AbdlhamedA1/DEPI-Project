@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ShieldCheck, Banknote, Star } from 'lucide-react';
 import { Locale } from '../../../i18n/config';
 
 export default function HomePage({ params }: { params: { locale: Locale } }) {
@@ -68,8 +69,8 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <div className="p-6 border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition">
-            <div className="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
-              ✓
+            <div className="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <ShieldCheck className="w-8 h-8 text-orange-600" />
             </div>
             <h3 className="text-xl font-bold mb-2">
               {isAr ? 'عقارات وملاك موثقون' : 'Verified Properties & Owners'}
@@ -82,8 +83,8 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
           </div>
 
           <div className="p-6 border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition">
-            <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
-              ⚡
+            <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Banknote className="w-8 h-8 text-blue-600" />
             </div>
             <h3 className="text-xl font-bold mb-2">
               {isAr ? 'بدون سماسرة أو عمولات' : 'Zero Broker Fees'}
@@ -96,8 +97,8 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
           </div>
 
           <div className="p-6 border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition">
-            <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
-              ★
+            <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Star className="w-8 h-8 text-emerald-600 fill-emerald-600" />
             </div>
             <h3 className="text-xl font-bold mb-2">
               {isAr ? 'تقييمات طلابية حقيقية' : 'Authentic Student Reviews'}

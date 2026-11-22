@@ -1,4 +1,5 @@
 import React from 'react';
+import { MapPin } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export interface MapViewProps {
@@ -16,8 +17,10 @@ export function MapView({ latitude, longitude, zoom = 14, className }: MapViewPr
         className,
       )}
     >
-      <div className="text-3xl mb-2">📍</div>
-      <p className="text-xs font-semibold">خريطة الموقع الجغرافي / Google Maps View</p>
+      <div className="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-2 shadow-sm">
+        <MapPin className="w-5 h-5 text-orange-600" />
+      </div>
+      <p className="text-xs font-semibold text-slate-700">خريطة الموقع الجغرافي / Google Maps View</p>
       <p className="text-[10px] text-slate-400 mt-1">
         Lat: {latitude.toFixed(4)}, Lng: {longitude.toFixed(4)} (Zoom: {zoom})
       </p>

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { Flag, CheckCircle2, Check, Star, X } from 'lucide-react';
 import { Locale } from '../../../../../i18n/config';
 import { Header } from '../../../../../components/layout/header';
 import { Footer } from '../../../../../components/layout/footer';
@@ -77,9 +78,9 @@ export default function PropertyDetailPage({
           {/* Report Listing Button */}
           <button
             onClick={() => setIsReportModalOpen(true)}
-            className="text-xs font-semibold text-slate-400 hover:text-rose-600 transition-colors flex items-center gap-1"
+            className="text-xs font-semibold text-slate-400 hover:text-rose-600 transition-colors flex items-center gap-1.5"
           >
-            <span>🚩</span>
+            <Flag className="w-3.5 h-3.5" />
             <span>{isAr ? 'الإبلاغ عن هذا العقار' : 'Report this listing'}</span>
           </button>
         </div>
@@ -96,10 +97,14 @@ export default function PropertyDetailPage({
             <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <Badge variant="success">{isAr ? 'عقار موثق ✓' : 'Verified Listing ✓'}</Badge>
+                  <Badge variant="success" className="flex items-center gap-1 font-semibold">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>{isAr ? 'عقار موثق' : 'Verified Listing'}</span>
+                  </Badge>
                   <Badge variant="outline">{isAr ? 'سكن طالبات' : 'Girls Housing'}</Badge>
-                  <span className="text-xs font-bold text-amber-500 flex items-center gap-0.5">
-                    ★ 5.0 (تقييم واحد)
+                  <span className="text-xs font-bold text-amber-600 flex items-center gap-1">
+                    <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+                    <span>5.0 ({isAr ? 'تقييم واحد' : '1 review'})</span>
                   </span>
                 </div>
                 <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">
@@ -127,11 +132,11 @@ export default function PropertyDetailPage({
                 {isAr ? 'مواصفات السكن والمرافق' : 'Housing Amenities & Rules'}
               </h2>
               <ul className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm text-slate-700">
-                <li>✓ {isAr ? 'إنترنت عالي السرعة (واي فاي)' : 'High-speed Wi-Fi'}</li>
-                <li>✓ {isAr ? 'تكييف هواء' : 'Air Conditioning'}</li>
-                <li>✓ {isAr ? 'غسالة ملابس ومطبخ مجهز' : 'Washing machine & equipped kitchen'}</li>
-                <li>✓ {isAr ? 'أمن وحراسة على مدار الساعة' : '24/7 Building Security'}</li>
-                <li>✓ {isAr ? 'بدون عمولة سمسار' : 'Zero Broker Fees'}</li>
+                <li className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 flex-shrink-0" /> {isAr ? 'إنترنت عالي السرعة (واي فاي)' : 'High-speed Wi-Fi'}</li>
+                <li className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 flex-shrink-0" /> {isAr ? 'تكييف هواء' : 'Air Conditioning'}</li>
+                <li className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 flex-shrink-0" /> {isAr ? 'غسالة ملابس ومطبخ مجهز' : 'Washing machine & equipped kitchen'}</li>
+                <li className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 flex-shrink-0" /> {isAr ? 'أمن وحراسة على مدار الساعة' : '24/7 Building Security'}</li>
+                <li className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-600 flex-shrink-0" /> {isAr ? 'بدون عمولة سمسار' : 'Zero Broker Fees'}</li>
               </ul>
             </div>
 
@@ -170,7 +175,11 @@ export default function PropertyDetailPage({
             <div className="flex items-center gap-3">
               <div className="text-center px-4 py-2 bg-amber-50 rounded-xl border border-amber-200">
                 <span className="text-2xl font-black text-amber-600">5.0</span>
-                <span className="block text-[10px] text-amber-700 font-bold">★★★★★</span>
+                <div className="flex items-center justify-center gap-0.5 mt-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3 h-3 fill-amber-500 text-amber-500" />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -185,7 +194,11 @@ export default function PropertyDetailPage({
                       <span className="font-bold text-slate-900 text-sm">{rev.studentName}</span>
                       <span className="text-xs text-slate-400 ms-2">{rev.date}</span>
                     </div>
-                    <div className="text-amber-500 text-xs">{'★'.repeat(rev.rating)}</div>
+                    <div className="flex items-center gap-0.5">
+                      {[...Array(rev.rating)].map((_, i) => (
+                        <Star key={i} className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+                      ))}
+                    </div>
                   </div>
                   <p className="text-sm text-slate-700 leading-relaxed">{rev.comment}</p>
 
@@ -219,17 +232,20 @@ export default function PropertyDetailPage({
                 </h3>
                 <button
                   onClick={() => setIsReportModalOpen(false)}
-                  className="text-slate-400 hover:text-slate-600 text-lg"
+                  className="text-slate-400 hover:text-slate-600 p-1"
                 >
-                  ✕
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
               {reportSubmitted ? (
-                <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-center text-green-700 text-sm font-semibold">
-                  {isAr
-                    ? '✓ تم استلام بلاغك وسيقوم فريق الإشراف بفحصه واتخاذ الإجراء اللازم.'
-                    : '✓ Report submitted. Our moderation team will investigate.'}
+                <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-center text-green-700 text-sm font-semibold flex items-center justify-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-600" />
+                  <span>
+                    {isAr
+                      ? 'تم استلام بلاغك وسيقوم فريق الإشراف بفحصه واتخاذ الإجراء اللازم.'
+                      : 'Report submitted. Our moderation team will investigate.'}
+                  </span>
                 </div>
               ) : (
                 <form onSubmit={handleReportSubmit} className="space-y-4">
