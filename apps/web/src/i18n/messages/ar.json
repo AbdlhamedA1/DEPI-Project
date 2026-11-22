@@ -50,5 +50,38 @@
     "studentRoleDesc": "ابحث عن سكن مناسب واحجز بكل سهولة وأمان",
     "ownerRoleTitle": "مالك أو مدير عقار",
     "ownerRoleDesc": "اعرض سكنك وقم بإدارته واستقبال حجوزات الطلاب الموثقين"
+  },
+  "search": {
+    "title": "البحث عن سكن الطلاب",
+    "subtitle": "تصفح العقارات المتاحة بالقرب من الجامعات المصرية",
+    "filterByUniversity": "تصفية حسب الجامعة",
+    "allUniversities": "جميع الجامعات",
+    "maxDistance": "أقصى مسافة عن الجامعة",
+    "budget": "الميزانية",
+    "genderPolicy": "سياسة السكن",
+    "propertyType": "نوع السكن",
+    "sortBy": "الترتيب",
+    "suitability": "الأكثر ملاءمة (الموثق ثم الأقرب)",
+    "distanceAsc": "الأقرب للجامعة",
+    "priceAsc": "الأقل سعراً",
+    "priceDesc": "الأعلى سعراً",
+    "newest": "الأحدث",
+    "cardsView": "عرض القائمة",
+    "splitView": "شاشة مقسمة",
+    "mapView": "عرض الخريطة",
+    "applyFilters": "تطبيق الفلاتر",
+    "reset": "إعادة ضبط",
+    "noResults": "لم يتم العثور على عقارات مطابقة لمعايير البحث",
+    "resultsFound": "تم العثور على {count} خيار سكن"
+  },
+  "kyc": {
+    "title": "توثيق الهوية وسندات الملكية",
+    "status": "حالة التوثيق",
+    "nationalId": "بطاقة الرقم القومي",
+    "ownershipDeed": "عقد الملكية",
+    "uploadButton": "رفع المستند",
+    "pendingReview": "قيد المراجعة",
+    "approved": "معتمد وموثق",
+    "rejected": "مرفوض"
   }
 }

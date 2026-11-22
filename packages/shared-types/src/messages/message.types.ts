@@ -1,7 +1,10 @@
 export enum ReportStatus {
+  NEW = 'NEW',
   PENDING = 'PENDING',
   UNDER_REVIEW = 'UNDER_REVIEW',
+  RESPONDED = 'RESPONDED',
   RESOLVED = 'RESOLVED',
+  CLOSED = 'CLOSED',
   DISMISSED = 'DISMISSED',
 }
 
@@ -15,8 +18,13 @@ export enum ReportReason {
 
 export enum NotificationType {
   BOOKING_REQUEST = 'BOOKING_REQUEST',
+  BOOKING_ACCEPTED = 'BOOKING_ACCEPTED',
+  BOOKING_REJECTED = 'BOOKING_REJECTED',
+  AGREEMENT_CONFIRMED = 'AGREEMENT_CONFIRMED',
+  CONFLICT_CLOSED = 'CONFLICT_CLOSED',
   STATUS_UPDATE = 'STATUS_UPDATE',
   NEW_MESSAGE = 'NEW_MESSAGE',
+  REVIEW_RECEIVED = 'REVIEW_RECEIVED',
   VERIFICATION_UPDATE = 'VERIFICATION_UPDATE',
   SYSTEM_ALERT = 'SYSTEM_ALERT',
 }
@@ -97,18 +105,6 @@ export interface IReport {
   resolvedAt?: Date | string;
   createdAt: Date | string;
   updatedAt: Date | string;
-}
-
-export interface IAdminActionLog {
-  id: string;
-  adminId: string;
-  action: string;
-  targetType: string;
-  targetId: string;
-  previousState?: Record<string, unknown>;
-  newState?: Record<string, unknown>;
-  ipAddress?: string;
-  createdAt: Date | string;
 }
 
 export interface IPlatformSettings {

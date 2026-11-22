@@ -15,6 +15,7 @@ export interface PropertyCardProps {
   propertyType: string;
   isVerified: boolean;
   locale: Locale;
+  imageUrl?: string;
 }
 
 export function PropertyCard({
@@ -27,6 +28,7 @@ export function PropertyCard({
   genderPolicy,
   isVerified,
   locale,
+  imageUrl,
 }: PropertyCardProps) {
   const isAr = locale === 'ar';
 
@@ -38,8 +40,16 @@ export function PropertyCard({
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-      <div className="h-48 bg-slate-200 relative flex items-center justify-center text-slate-400">
-        <span className="text-sm">{isAr ? 'صورة العقار' : 'Property Image'}</span>
+      <div className="h-48 bg-slate-200 relative flex items-center justify-center text-slate-400 overflow-hidden">
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          />
+        ) : (
+          <span className="text-sm">{isAr ? 'صورة العقار' : 'Property Image'}</span>
+        )}
         {isVerified && (
           <div className="absolute top-3 start-3">
             <Badge variant="success">{isAr ? 'موثق ✓' : 'Verified ✓'}</Badge>

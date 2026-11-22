@@ -1,40 +1,84 @@
-# Stage 1: Base
-FROM node:24-alpine AS base
+# ==============================================================================
+# Stage 1: Base Image (Node.js 20 LTS Alpine)
+# ==============================================================================
+FROM node:20-alpine AS base
 WORKDIR /app
 RUN apk add --no-cache libc6-compat
 
-# Stage 2: Dependencies
+# ==============================================================================
+# Stage 2: Dependencies Installation
+# ==============================================================================
 FROM base AS deps
 WORKDIR /app
-COPY package.json package-lock.json* ./
+
+# Copy root manifest and workspace package manifests for accurate lockfile resolution
+COPY package.json package-lock.json ./
 COPY apps/web/package.json ./apps/web/package.json
 COPY packages/shared-types/package.json ./packages/shared-types/package.json
 COPY packages/shared-config/package.json ./packages/shared-config/package.json
 COPY packages/validation/package.json ./packages/validation/package.json
 COPY packages/api-client/package.json ./packages/api-client/package.json
+
+# Clean install all dependencies (including devDependencies needed for build)
 RUN npm ci
 
-# Stage 3: Builder
+# ==============================================================================
+# Stage 3: Builder Stage
+# ==============================================================================
 FROM base AS builder
 WORKDIR /app
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+# Build-time environment arguments (baked into client bundles by Next.js)
+ARG NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
+ARG NEXT_PUBLIC_DEFAULT_LOCALE=ar
+ARG NEXT_PUBLIC_SUPPORTED_LOCALES=ar,en
+ARG NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=""
+
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_DEFAULT_LOCALE=$NEXT_PUBLIC_DEFAULT_LOCALE
+ENV NEXT_PUBLIC_SUPPORTED_LOCALES=$NEXT_PUBLIC_SUPPORTED_LOCALES
+ENV NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=$NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
+
+# Compile shared packages first, then build Next.js application
 RUN npm run build:packages
 RUN npm run --workspace=@repo/web build
 
-# Stage 4: Runner
-FROM node:24-alpine AS runner
+# ==============================================================================
+# Stage 4: Production Runner (Standalone Mode - ~120MB)
+# ==============================================================================
+FROM node:20-alpine AS runner
 WORKDIR /app
+
 ENV NODE_ENV=production
 ENV PORT=3000
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-COPY --from=builder /app/apps/web/public ./apps/web/public
+ENV HOSTNAME="0.0.0.0"
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Security: Create and run as unprivileged non-root user
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
+
+# Set correct ownership for runtime cache and files
+RUN mkdir -p apps/web/.next && chown -R nextjs:nodejs apps/web
+
+# Check if standalone directory exists; copy appropriate assets
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
+
+# Robust runner assets to support standalone output or standard output
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next ./apps/web/.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/apps/web/package.json ./apps/web/package.json
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/package.json ./apps/web/package.json
+COPY --from=builder --chown=nextjs:nodejs /app/packages ./packages
 
 USER nextjs
 EXPOSE 3000
-CMD ["npm", "run", "--workspace=@repo/web", "start"]
+
+# Start via standalone server if present, else fallback to next start
+CMD ["sh", "-c", "if [ -f apps/web/.next/standalone/apps/web/server.js ]; then node apps/web/.next/standalone/apps/web/server.js; elif [ -f apps/web/.next/standalone/server.js ]; then node apps/web/.next/standalone/server.js; else npx next start apps/web -p 3000; fi"]

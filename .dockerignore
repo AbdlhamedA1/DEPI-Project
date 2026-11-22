@@ -1,0 +1,45 @@
+# Dependency directories
+node_modules
+apps/*/node_modules
+packages/*/node_modules
+
+# Build outputs
+dist
+build
+.next
+out
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+# Version control and agent scratch
+.git
+.gitignore
+.github
+.agents
+.gemini
+
+# Logs and debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Test outputs and coverage
+coverage
+tests
+__tests__
+*.spec.ts
+*.test.ts
+
+# User uploads and runtime storage
+uploads
+tmp
+temp

@@ -50,5 +50,38 @@
     "studentRoleDesc": "Find suitable student housing and book securely",
     "ownerRoleTitle": "Property Owner or Manager",
     "ownerRoleDesc": "List your properties and receive verified student bookings"
+  },
+  "search": {
+    "title": "Student Housing Discovery",
+    "subtitle": "Browse verified accommodations near Egyptian universities",
+    "filterByUniversity": "Filter by University",
+    "allUniversities": "All Universities",
+    "maxDistance": "Max Campus Distance",
+    "budget": "Budget",
+    "genderPolicy": "Gender Policy",
+    "propertyType": "Property Type",
+    "sortBy": "Sort By",
+    "suitability": "Suitability (Verified & Closest)",
+    "distanceAsc": "Closest to Campus",
+    "priceAsc": "Price: Low to High",
+    "priceDesc": "Price: High to Low",
+    "newest": "Newest",
+    "cardsView": "Cards View",
+    "splitView": "Split View",
+    "mapView": "Map View",
+    "applyFilters": "Apply Filters",
+    "reset": "Reset",
+    "noResults": "No properties matched your criteria",
+    "resultsFound": "Found {count} accommodation options"
+  },
+  "kyc": {
+    "title": "Identity & Ownership Verification",
+    "status": "Verification Status",
+    "nationalId": "National ID",
+    "ownershipDeed": "Ownership Deed",
+    "uploadButton": "Upload Document",
+    "pendingReview": "Pending Review",
+    "approved": "Approved & Verified",
+    "rejected": "Rejected"
   }
 }

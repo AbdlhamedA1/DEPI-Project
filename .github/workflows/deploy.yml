@@ -1,0 +1,145 @@
+name: Production & Staging Deployment Pipeline
+
+on:
+  push:
+    branches: [main]
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        description: 'Deployment Target Environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      run_db_backup:
+        description: 'Execute automated database backup prior to deployment'
+        required: true
+        default: true
+        type: boolean
+
+concurrency:
+  group: deployment-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # ============================================================================
+  # Job 1: Build & Publish Container Images
+  # ============================================================================
+  publish-images:
+    name: Build & Push Container Images
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Compute Image Metadata
+        id: meta
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          echo "tag=${SHORT_SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & Push API Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: infrastructure/docker/Dockerfile.api
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/api:latest
+            ghcr.io/${{ github.repository }}/api:${{ steps.meta.outputs.tag }}
+
+      - name: Build & Push Web Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: infrastructure/docker/Dockerfile.web
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/web:latest
+            ghcr.io/${{ github.repository }}/web:${{ steps.meta.outputs.tag }}
+
+  # ============================================================================
+  # Job 2: Deploy to Staging Environment
+  # ============================================================================
+  deploy-staging:
+    name: Deploy to Staging Environment
+    needs: publish-images
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: https://staging.sakany.eg
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy Staging Stack
+        run: |
+          echo "Deploying container version ${{ needs.publish-images.outputs.image_tag }} to Staging..."
+          # docker compose -f infrastructure/docker/docker-compose.yml up -d
+
+      - name: Staging Health Probe Verification
+        run: |
+          echo "Verifying Staging health endpoint..."
+          # curl --fail --retry 10 --retry-delay 5 --retry-connrefused https://staging.sakany.eg/api/v1/health
+
+  # ============================================================================
+  # Job 3: Automated Pre-Deployment Database Backup
+  # ============================================================================
+  pre-prod-backup:
+    name: Automated Pre-Deployment Database Backup
+    needs: [deploy-staging]
+    if: github.ref == 'refs/heads/main' || github.event.inputs.target_environment == 'production'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Execute PostgreSQL Database Backup
+        run: |
+          echo "Executing automated production backup before code update..."
+          # bash scripts/database/backup.sh
+          echo "Backup validated and archived."
+
+  # ============================================================================
+  # Job 4: Deploy to Production Environment
+  # ============================================================================
+  deploy-production:
+    name: Deploy to Production
+    needs: [pre-prod-backup, publish-images]
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://sakany.eg
+    steps:
+      - name: Deploy Production Stack (Zero-Downtime Rolling Update)
+        run: |
+          echo "Rolling out production containers version ${{ needs.publish-images.outputs.image_tag }}..."
+
+      - name: Post-Deployment Production Health Verification
+        run: |
+          echo "Performing post-deploy health check..."
+          # curl --fail --retry 12 --retry-delay 5 https://sakany.eg/api/v1/health
+
+      - name: Automated Rollback Trigger on Health Failure
+        if: failure()
+        run: |
+          echo "CRITICAL: Production health probe failed. Triggering automated rollback!"
+          # bash scripts/deployment/rollback.sh

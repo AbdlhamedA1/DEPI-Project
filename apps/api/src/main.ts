@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -6,7 +7,11 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  // Trust reverse proxy (NGINX, Docker network bridge, Cloudflare)
+  // Ensures req.ip and req.ips correctly reflect the client's public IP from X-Forwarded-For
+  app.set('trust proxy', 1);
 
   // Prefix all REST endpoints with /api/v1
   app.setGlobalPrefix('api/v1');

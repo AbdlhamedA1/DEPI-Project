@@ -1,37 +1,81 @@
-# Stage 1: Base
-FROM node:24-alpine AS base
+# ==============================================================================
+# Stage 1: Base Image (Node.js 20 LTS Alpine)
+# ==============================================================================
+FROM node:20-alpine AS base
 WORKDIR /app
 RUN apk add --no-cache libc6-compat
 
-# Stage 2: Dependencies
+# ==============================================================================
+# Stage 2: Dependencies Installation
+# ==============================================================================
 FROM base AS deps
 WORKDIR /app
-COPY package.json package-lock.json* ./
+
+# Install build tools required for native C++ addons (e.g. bcrypt)
+RUN apk add --no-cache python3 make g++
+
+# Copy root manifest and workspace package manifests for accurate lockfile resolution
+COPY package.json package-lock.json ./
 COPY apps/api/package.json ./apps/api/package.json
 COPY packages/shared-types/package.json ./packages/shared-types/package.json
 COPY packages/shared-config/package.json ./packages/shared-config/package.json
 COPY packages/validation/package.json ./packages/validation/package.json
+COPY packages/api-client/package.json ./packages/api-client/package.json
+
+# Clean install all dependencies
 RUN npm ci
 
-# Stage 3: Builder
+# ==============================================================================
+# Stage 3: Builder Stage
+# ==============================================================================
 FROM base AS builder
 WORKDIR /app
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+ENV NODE_ENV=production
+
+# Compile shared packages first, then build NestJS application
 RUN npm run build:packages
 RUN npm run --workspace=@repo/api build
 
-# Stage 4: Runner
-FROM node:24-alpine AS runner
+# Prune devDependencies to keep runtime image lightweight
+RUN npm prune --omit=dev
+
+# ==============================================================================
+# Stage 4: Production Runner (Lean Alpine ~180MB)
+# ==============================================================================
+FROM node:20-alpine AS runner
 WORKDIR /app
+
 ENV NODE_ENV=production
-ENV API_PORT=3001
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nestjs
-COPY --from=builder /app/apps/api/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/apps/api/package.json ./package.json
+ENV PORT=4000
+ENV API_PORT=4000
+
+# Install runtime utilities (libc6-compat for native modules, wget for health check probe)
+RUN apk add --no-cache libc6-compat wget
+
+# Security: Create and run as unprivileged non-root user
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nestjs
+
+# Copy root manifests, pruned production node_modules, and packages (preserves @repo/* symlinks)
+COPY --from=builder --chown=nestjs:nodejs /app/package.json ./package.json
+COPY --from=builder --chown=nestjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nestjs:nodejs /app/packages ./packages
+COPY --from=builder --chown=nestjs:nodejs /app/apps/api/dist ./apps/api/dist
+COPY --from=builder --chown=nestjs:nodejs /app/apps/api/package.json ./apps/api/package.json
+
+# Create uploads directory for KYC storage with proper permissions
+RUN mkdir -p uploads/secure_kyc && chown -R nestjs:nodejs uploads
 
 USER nestjs
-EXPOSE 3001
-CMD ["node", "dist/main.js"]
+EXPOSE 4000
+
+# Container healthcheck probe targeting NestJS health endpoint
+HEALTHCHECK --interval=10s --timeout=5s --retries=5 --start-period=15s \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:4000/api/v1/health || exit 1
+
+# Start command dynamically resolves both dist/apps/api/src/main.js and dist/main.js
+CMD ["sh", "-c", "if [ -f apps/api/dist/apps/api/src/main.js ]; then node apps/api/dist/apps/api/src/main.js; else node apps/api/dist/main.js; fi"]

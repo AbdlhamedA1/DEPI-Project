@@ -10,3 +10,5 @@ export function generateOtp(length = 6): string {
 export function sanitizePhoneNumber(phone: string): string {
   return phone.replace(/[^\d+]/g, '');
 }
+
+export * from './phone.util';
