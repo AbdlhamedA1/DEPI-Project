@@ -10,8 +10,12 @@ const databaseProvider = {
     const logger = new Logger('DatabaseModule');
     const dbUrl = configService.get<string>('database.url');
 
+    const isCloudDb = dbUrl && !dbUrl.includes('localhost') && !dbUrl.includes('127.0.0.1');
     const poolConfig: PoolConfig = dbUrl
-      ? { connectionString: dbUrl }
+      ? {
+          connectionString: dbUrl,
+          ssl: isCloudDb ? { rejectUnauthorized: false } : undefined,
+        }
       : {
           host: configService.get<string>('database.host') || 'localhost',
           port: configService.get<number>('database.port') || 5432,
